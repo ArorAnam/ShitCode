@@ -10,7 +10,6 @@ class Graph:
         self.edges[u][v] = w
         self.edges[v][u] = w
     
-
 def dijstra(graph, start_vertex):
     D = {v:float('inf') for v in range(graph.v)}
     D[start_vertex] = 0
@@ -34,31 +33,53 @@ def dijstra(graph, start_vertex):
         
     return D
 
-if __name__ == '__main__':
-    g = Graph(9)
-    g.add_edge(0, 1, 4)
-    g.add_edge(0, 6, 7)
-    g.add_edge(1, 6, 11)
-    g.add_edge(1, 7, 20)
-    g.add_edge(1, 2, 9)
-    g.add_edge(2, 3, 6)
-    g.add_edge(2, 4, 2)
-    g.add_edge(3, 4, 10)
-    g.add_edge(3, 5, 5)
-    g.add_edge(4, 5, 15)
-    g.add_edge(4, 7, 1)
-    g.add_edge(4, 8, 5)
-    g.add_edge(5, 8, 12)
-    g.add_edge(6, 7, 1)
-    g.add_edge(7, 8, 3) 
+# if __name__ == '__main__':
+#     g = Graph(9)
+#     g.add_edge(0, 1, 4)
+#     g.add_edge(0, 6, 7)
+#     g.add_edge(1, 6, 11)
+#     g.add_edge(1, 7, 20)
+#     g.add_edge(1, 2, 9)
+#     g.add_edge(2, 3, 6)
+#     g.add_edge(2, 4, 2)
+#     g.add_edge(3, 4, 10)
+#     g.add_edge(3, 5, 5)
+#     g.add_edge(4, 5, 15)
+#     g.add_edge(4, 7, 1)
+#     g.add_edge(4, 8, 5)
+#     g.add_edge(5, 8, 12)
+#     g.add_edge(6, 7, 1)
+#     g.add_edge(7, 8, 3) 
     
-    D = dijstra(g, 0)
-    # print(D)
+#     D = dijstra(g, 0)
+#     # print(D)
 
-    for vertex in range(len(D)):
-        print("Distance from vertex 0 to vertex", vertex, "is", D[vertex])
+#     for vertex in range(len(D)):
+#         print("Distance from vertex 0 to vertex", vertex, "is", D[vertex])
 
 # Time complexity: O(|E| + |V|log|V|) where E is the number of edges and V is the number of vertices
 # Here we pass each edge once and each vertex once to the priority queue. The priority queue has a time complexity of O(log|V|) for each insertion and deletion.
 # But sorting in priority queue is done in O(VlogV) time. So the overall time complexity is O(|E| + |V|log|V|)
 # Space complexity: O(V) where V is the number of vertices
+
+from typing import List
+from collections import defaultdict
+import heapq
+def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+    graph = defaultdict(list)
+    for u, v, w in times:
+        graph[u].append((v, w))
+    
+    pq = [(0, k)]
+    dist = {}
+    
+    while pq:
+        d, node = heapq.heappop(pq)
+        if node in dist:
+            continue
+        dist[node] = d
+        for nei, d2 in graph[node]:
+            if nei not in dist:
+                heapq.heappush(pq, (d+d2, nei))
+    
+    return max(dist.values()) if len(dist) == n else -1
