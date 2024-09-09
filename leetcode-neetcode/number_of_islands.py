@@ -22,7 +22,7 @@ def numberofIslands(grid: List[List[int]]) -> int:
                 if (r in range(rows) and
                     c in range(cols) and
                     grid[r][c] == "1" and
-                    ((r, c) not in visited
+                    (r, c) not in visited
                     ):
                     q.append(r, c)
                     visited.add(r, c)
@@ -32,3 +32,5 @@ def numberofIslands(grid: List[List[int]]) -> int:
             if grid[r][c] == '1' and (r,c) not in visited:
                 bfs(r, c)
                 islands_cnt += 1
+
+    return islands_cnt
