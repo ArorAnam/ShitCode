@@ -22,4 +22,5 @@ def climbStairs(n):
         third = first + second
         first = second
         second = third
-    return
+    
+    return second
